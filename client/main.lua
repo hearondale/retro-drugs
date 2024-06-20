@@ -1,9 +1,12 @@
 local selling = false
-local pedToSell = nil
+local pedToSell
 local distToClosest = 100
 local closestCoords = nil
 
 function soldToNPC(itemname, cnt)
+    if not pedToSell or not DoesEntityExist(pedToSell) then
+        return
+    end
     FreezeEntityPosition(pedToSell, true)
 
     lib.playAnim(pedToSell, "mp_common",  "givetake1_a", 8.0, 8.0, 2000, 34, 0.0, false, 0, false)
@@ -15,10 +18,18 @@ function soldToNPC(itemname, cnt)
     TaskStandStill(pedToSell, 2000)
     Wait(500)
 
-    lib.callback('drugs:sellToNPC', false, function()
+    lib.callback('drugs:sellToNPC', false, function(result)
+        if not result then
+            lib.notify({
+                title = 'Не вышло',
+                description = 'Покупатель хотел приобрести больше товара, чем у вас есть',
+                type = 'error'
+            })
+        end
         FreezeEntityPosition(pedToSell, false)
         selling = false
-    end, itemname, cnt)
+        pedToSell = 0
+    end, itemname, cnt, pedToSell)
 end
 
 function tryCallPolice(coords, lastrand)
@@ -84,6 +95,7 @@ function tryCallPolice(coords, lastrand)
         end
     end
     selling = false
+    pedToSell = 0
 end
 
 ---@param reputation number whatever
