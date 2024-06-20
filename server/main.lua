@@ -8,8 +8,8 @@ lib.callback.register('drugs:sellToNPC', function(source, itemname, cnt)
         ox_inventory:AddItem(source, 'money', Config.Price[itemname])
     else
         lib.notify(source, {
-            title = 'Не вышло',
-            description = 'Покупатель хотел приобрести больше товара, чем у вас есть',
+            title = 'Bad luck',
+            description = 'The buyer wanted to purchase more goods than you have',
             type = 'error'
         })
     end
