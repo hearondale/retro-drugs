@@ -1,14 +1,15 @@
 local ox_inventory = exports.ox_inventory
 
-lib.callback.register('drugs:sellToNPC', function(source, itemname, cnt)
+lib.callback.register('drugs:sellToNPC', function(source, itemname, cnt, ped)
+    if DoesEntityExist(ped) then
+        DropPlayer(source, "You obviously did smth suspicious")
+    end
+
     local result = ox_inventory:RemoveItem(source, itemname, cnt + 1)
     if result then
-        ox_inventory:AddItem(source, 'money', Config.Price[itemname] * (cnt + 1))
+        ox_inventory:AddItem(source, 'money', Config.Price[itemname])
+        return true
     else
-        lib.notify(source, {
-            title = 'Bad luck',
-            description = 'The buyer wanted to purchase more goods than you have',
-            type = 'error'
-        })
+        return false
     end
 end)
