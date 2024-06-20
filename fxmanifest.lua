@@ -11,7 +11,6 @@ shared_scripts {
     'config.lua'
 }
 client_scripts {
-    '@es_extended/imports.lua',
     'client/speeches.lua',
     'client/main.lua',
 }
