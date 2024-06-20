@@ -1,12 +1,10 @@
 local selling = false
 local pedToSell
+local pedToSell = nil
 local distToClosest = 100
 local closestCoords = nil
 
 function soldToNPC(itemname, cnt)
-    if not pedToSell or not DoesEntityExist(pedToSell) then
-        return
-    end
     FreezeEntityPosition(pedToSell, true)
 
     lib.playAnim(pedToSell, "mp_common",  "givetake1_a", 8.0, 8.0, 2000, 34, 0.0, false, 0, false)
@@ -18,6 +16,7 @@ function soldToNPC(itemname, cnt)
     TaskStandStill(pedToSell, 2000)
     Wait(500)
 
+<<<<<<< HEAD
     lib.callback('drugs:sellToNPC', false, function(result)
         if not result then
             lib.notify({
@@ -26,10 +25,11 @@ function soldToNPC(itemname, cnt)
                 type = 'error'
             })
         end
+=======
+    lib.callback('drugs:sellToNPC', false, function()
+>>>>>>> parent of 71fd78d (Update main.lua)
         FreezeEntityPosition(pedToSell, false)
         selling = false
-        pedToSell = 0
-    end, itemname, cnt, pedToSell)
 end
 
 function tryCallPolice(coords, lastrand)
@@ -95,7 +95,6 @@ function tryCallPolice(coords, lastrand)
         end
     end
     selling = false
-    pedToSell = 0
 end
 
 ---@param reputation number whatever
