@@ -6,4 +6,10 @@ Now if you using **ox_inventory** copy the items you need of items.lua file (in 
 
 For those who want to use another inventory, you can try doing ыimilarly with your inventory (paste copied items to where they are stored), but you might need to chage the way how they are defined (especially additional buttons I use in this case to call an export form the resource)
 
+You can also implement another logic of selling (ox_target or another button) by simply calling 
+```
+exports['retro-drugs']:selltoNPC('name_of_your_drug')
+```
+wherever you might need.
+
 
