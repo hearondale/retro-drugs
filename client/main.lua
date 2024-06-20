@@ -30,6 +30,7 @@ function soldToNPC(itemname, cnt)
 >>>>>>> parent of 71fd78d (Update main.lua)
         FreezeEntityPosition(pedToSell, false)
         selling = false
+    end, itemname, cnt)
 end
 
 function tryCallPolice(coords, lastrand)
