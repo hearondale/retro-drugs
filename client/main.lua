@@ -21,8 +21,8 @@ function soldToNPC(itemname, cnt)
     lib.callback('drugs:sellToNPC', false, function(result)
         if not result then
             lib.notify({
-                title = 'Не вышло',
-                description = 'Покупатель хотел приобрести больше товара, чем у вас есть',
+                title = 'Bad luck',
+                description = 'The buyer wanted to purchase more goods than you have',
                 type = 'error'
             })
         end
