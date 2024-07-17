@@ -21,8 +21,8 @@ function soldToNPC(itemname, cnt)
     lib.callback('drugs:sellToNPC', false, function(result)
         if not result then
             lib.notify({
-                title = 'Bad luck',
-                description = 'The buyer wanted to purchase more goods than you have',
+                title = Config.Failure.title,
+                description = Config.Failure.description,
                 type = 'error'
             })
         end
@@ -140,9 +140,13 @@ end
 
 ---comment
 ---@param itemname string name of inventory item you want to sell
-function selltoNPC(itemname)
+function selltoNPC(itemname, entity)
+    if not Config.Drugs[itemname].price then
+        return
+        error(itemname .. 'doesn\'t seem to be sold')
+    end
     local coords = GetEntityCoords(cache.ped)
-    pedToSell = lib.getClosestPed(coords, 2)
+    pedToSell = entity and entity or lib.getClosestPed(coords, 2)
 
     if Config.Debug then
         print(pedToSell, selling)
@@ -180,3 +184,27 @@ function selltoNPC(itemname)
 end
 
 exports('selltoNPC', selltoNPC)
+
+
+local pedOptions = {}
+
+for v, value in pairs(Config.Drugs) do
+    print(v)
+    local a = {
+        name = "drugs:sell_" .. v,
+        icon = Config.Drugs[v].icon,
+        label = Config.Drugs[v].target_label,
+        distance = 1.5,
+        items = v,
+        canInteract = function(entity)
+            return not IsPedDeadOrDying(entity)
+        end,
+        onSelect = function(data)
+            local ped = data.entity
+            selltoNPC(v, ped)
+        end
+    }
+    table.insert(pedOptions, a)
+end
+
+exports.ox_target:addGlobalPed(pedOptions)
