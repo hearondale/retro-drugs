@@ -129,9 +129,18 @@ function checkIfBought(reputation, itemname, coords)
                 else
                     PlayPedAmbientSpeechAndCloneNative(pedToSell, 'GENERIC_THANKS', 'SPEECH_PARAMS_FORCE_SHOUTED_CLEAR', false)
                 end
-            
+                    lib.notify({
+                        description = "Successfully sold",
+                        type = "success",
+                        duration = 3000,
+                    })
                 return soldToNPC(itemname, cnt)
             else
+                lib.notify({
+                    description = "Customer refused to buy",
+                    type = "warning",
+                    duration = 3000,
+                })
                 return tryCallPolice(closestCoords, rand)
             end
         end
